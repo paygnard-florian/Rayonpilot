@@ -176,6 +176,14 @@ async def main():
         # règle produits volumineux : désactivée -> plus de facings minimum
         r = await ev("()=>{const st=S.settings;st.rules.bulky=false;const a=optimize();st.rules.bulky=true;const b=optimize();return {off:a.blocking?'blocage':a.rows.reduce((x,r)=>x+r.minF,0),on:b.rows.reduce((x,r)=>x+r.minF,0)}}")
         log('Règle produits volumineux', True, f"facings minimum cumulés : {r['on']} avec la règle, {r['off']} sans")
+        # critères physiques sur le poids : les références de 2,5 kg et plus en bas (étagères 1–2)
+        r = await ev("""()=>{const st=S.settings;Object.assign(st,{layout:'horizontal',order:'gradient',flow:'ltr',secondary:[]});const out={};
+          for(const obj of ['equilibre','ca','marge','rotation']){st.objective=obj;const pl=optimize();
+            out[obj]=pl.rows.filter(r=>prod(r.pid).kg>=2.5).map(r=>Math.max(...r.after.shelves))}
+          st.rules.phys=false;st.objective='equilibre';const off=optimize().rows.filter(r=>prod(r.pid).kg>=2.5).map(r=>Math.max(...r.after.shelves));st.rules.phys=true;
+          return {out,off,kg:S.catalog.filter(p=>p.kg>0).length}}""")
+        hi = max(max(v) for v in r['out'].values())
+        log('Critères physiques : produits lourds (≥ 2,5 kg) en bas', r['kg'] == 8 and hi <= 2, f"{r['kg']} poids importés, étagère la plus haute : {hi} avec la règle, {max(r['off'])} sans")
         # plan final retenu : équilibre horizontal, généré par le bouton
         await ev("Object.assign(S.settings,{objective:'equilibre',layout:'horizontal',order:'gradient',flow:'ltr',secondary:['marge']});save();renderPlan()")
         await pg.click('#gen'); await pg.wait_for_timeout(400)

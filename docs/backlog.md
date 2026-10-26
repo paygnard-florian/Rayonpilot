@@ -7,7 +7,7 @@
 - [ ] **[vision] Mesurer la vraie détection sur la photo lessive** — lancer l'analyse dans Claude, comparer aux 60 blocs de référence (`reponse-ia-simulee.json`), noter blocs trouvés, erreurs de référence, temps, coût.
 - [ ] **[données] Constituer le jeu de 30 photos autorisées** — rayons variés, une fiche par photo (mobilier, date, magasin anonymisé).
 - [ ] **[moteur] Extraire le moteur en module TypeScript** — `packages/engine` avec `checks`, `optimize`, indices ; tests unitaires (contraintes, seuils, MDD, cas impossibles) ; le prototype l'importe ou l'intègre au build.
-- [ ] **[moteur] Ajouter le poids** — colonne `poids_kg` au catalogue, critères physiques sur le poids (repli sur le volume).
+- [x] **[moteur] Ajouter le poids** — colonne `poids_kg` au catalogue, critères physiques sur le poids (repli sur le volume).
 - [ ] **[test] Ajouter un test de non-régression du planogramme** — comparer le plan généré sur le jeu lessive à un instantané validé.
 
 ## Moteur

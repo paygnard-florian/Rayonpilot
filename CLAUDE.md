@@ -36,7 +36,7 @@ Contraintes de l'artifact Claude (si la page doit rester publiable comme artifac
 
 ## Tests
 
-- `python tests/e2e/test_parcours.py` : 39 contrôles sur le parcours complet (mobilier, import, photo, échec IA sans débit, analyse, corrections, dimensions, 13 combinaisons de plans avec vérification des contraintes, indices recalculés, exports, quota, persistance, mobile 390 px, absence d'erreur JS). **Doit rester à 39/39** avant tout commit.
+- `python tests/e2e/test_parcours.py` : 40 contrôles sur le parcours complet (mobilier, import, photo, échec IA sans débit, analyse, corrections, dimensions, 13 combinaisons de plans avec vérification des contraintes, produits lourds en bas, indices recalculés, exports, quota, persistance, mobile 390 px, absence d'erreur JS). **Doit rester à 40/40** avant tout commit.
 - Prérequis : `pip install -r tests/requirements.txt && playwright install chromium`.
 - Tout nouveau comportement du moteur ou de l'interface s'accompagne d'un contrôle dans ce test, ou d'un test unitaire une fois le moteur extrait (voir feuille de route).
 

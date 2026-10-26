@@ -27,7 +27,7 @@ Objectifs secondaires : poids de 35 % ajouté à l'objectif principal (PRD §4.7
 | Seuil de saturation | maximum de facings = plancher(saturation ÷ largeur), 100 cm par défaut | 1.12 |
 | Valeur des niveaux | sol < 50 cm : 0,55 ; < 90 : 0,75 ; < 120 : 0,9 ; 120–165 (yeux) : 1 ; au-delà : 0,7 | 1.6 |
 | Compensation des niveaux | cible multipliée par 1 ÷ valeur du niveau | 1.6 |
-| Critères physiques | pénalité pour les produits volumineux placés haut (volume relatif²) | 2.1 |
+| Critères physiques | produits lourds en bas : préférence proportionnelle au poids relatif (poids ÷ poids maximal du rayon, colonne « Poids (kg) » du catalogue) ; repli sur le volume relatif² si le poids est inconnu | 2.1 |
 | Couverture minimale | minimum de facings pour tenir N jours | 1.8 |
 
 ## Organisation et présentation
@@ -46,6 +46,6 @@ Objectifs secondaires : poids de 35 % ajouté à l'objectif principal (PRD §4.7
 
 ## Limites connues (rapport de test du 26/10/2026)
 
-- Les critères physiques reposent sur le volume, pas sur le poids : une petite boîte dense (poudre) peut finir en haut. → ajouter un champ poids.
+- Critères physiques : le poids (facultatif, non bloquant) prime sur le volume ; une référence sans poids reste jugée sur son volume, à une autre échelle. Renseigner le poids de toutes les références lourdes d’un rayon pour un résultat cohérent.
 - En disposition horizontale, une catégorie peut être répartie sur plusieurs étagères non voisines.
 - Pas encore de rappel (casquette), de facing feuilleté, ni de zones interdites dans le mobilier.
