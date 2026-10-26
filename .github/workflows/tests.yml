@@ -1,0 +1,30 @@
+name: Tests du prototype
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  parcours:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Installer Playwright
+        run: |
+          pip install -r tests/requirements.txt
+          playwright install --with-deps chromium
+      - name: Vérifier que la PWA est à jour
+        run: |
+          python scripts/build_pwa.py
+          git diff --exit-code prototype/pwa/index.html || (echo "Lancez python scripts/build_pwa.py et commitez prototype/pwa/index.html" && exit 1)
+      - name: Test de bout en bout
+        run: python tests/e2e/test_parcours.py
+      - name: Garder le planogramme généré
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultats-test
+          path: tests/output/

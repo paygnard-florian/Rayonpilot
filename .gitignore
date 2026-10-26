@@ -1,0 +1,17 @@
+# Sorties de test
+tests/output/
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+
+# Secrets : ne jamais versionner de clé API
+.env
+.env.*
+!.env.example
+*.key
+
+# Système
+.DS_Store
+Thumbs.db
+.netlify/
