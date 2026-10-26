@@ -43,6 +43,7 @@ Contraintes de l'artifact Claude (si la page doit rester publiable comme artifac
 ## Outils
 
 - Plugin ECC v2.2.3 activé pour ce dépôt (`.claude/settings.json`). Ses agents et méthodes (planification, TDD, revue de sécurité) sont des aides : en cas de conflit, ce fichier et le PRD l'emportent. Ne pas faire évoluer sa version sans le signaler.
+- Skill `fondateur` (`.claude/skills/fondateur/`) : point de la semaine, budget, temps, décisions, go/no-go MVP. Suivi dans `docs/pilotage/`.
 
 ## Manière de travailler
 

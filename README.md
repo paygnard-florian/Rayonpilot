@@ -35,7 +35,8 @@ Les tests tournent aussi à chaque push (GitHub Actions, `.github/workflows/test
 1. Installer Claude Code (inclus dans les formules Pro et Max) et ouvrir le dossier du dépôt : `claude`.
 2. Claude Code lit automatiquement `CLAUDE.md` (contexte, règles produit, architecture, tests).
 3. La boîte à outils [ECC](https://github.com/affaan-m/ECC) (agents de planification, revue, sécurité) est déclarée dans `.claude/settings.json`, figée sur la version v2.2.3 (pas de mise à jour automatique). Claude Code la propose à l'ouverture du dépôt, après acceptation de la confiance du dossier. ECC exécute des automatismes (hooks) à chaque action : choisir le profil **minimal** lors de l'installation si le travail ralentit. Pour la retirer, supprimer `.claude/settings.json`.
-4. Point de départ conseillé : les tickets « Prochaines étapes » de `docs/backlog.md`.
+4. Pour le pilotage du projet, demander « point de la semaine », « go / no-go MVP » ou « que faire maintenant ? » : le skill `fondateur` s'en charge (suivi dans `docs/pilotage/`).
+5. Point de départ conseillé : les tickets « Prochaines étapes » de `docs/backlog.md`.
 
 ## Créer le dépôt GitHub
 
