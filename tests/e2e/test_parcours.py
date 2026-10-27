@@ -10,8 +10,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 DATA = ROOT / 'data' / 'test-lessive'
 OUT = ROOT / 'tests' / 'output'; OUT.mkdir(exist_ok=True)
 SD = str(OUT) + '/'
-AI = open(DATA / 'reponse-ia-simulee.json').read()
-open(SD + 'page.html', 'w').write('<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"></head><body>' + open(ROOT / 'prototype' / 'rayonpilot.html').read() + '</body></html>')
+AI = open(DATA / 'reponse-ia-simulee.json', encoding='utf-8').read()
+open(SD + 'page.html', 'w', encoding='utf-8').write('<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"></head><body>' + open(ROOT / 'prototype' / 'rayonpilot.html', encoding='utf-8').read() + '</body></html>')
 
 STUB = """
 window.__AI = %s; window.__mode = 'ok'; window.__calls = 0; window.__saved = [];
@@ -108,7 +108,7 @@ async def main():
         t = time.time(); corr = 0
         ids = await ev("S.detections.map(d=>({id:d.id,ref:d.productId&&prod(d.productId).ref,label:d.label,shelf:d.shelf,f:d.facings,x:d.box&&d.box[0]}))")
         refid = await ev("Object.fromEntries(S.catalog.map(p=>[p.ref,p.id]))")
-        truth = json.load(open(DATA / 'reponse-ia-simulee.json'))  # positions identiques
+        truth = json.load(open(DATA / 'reponse-ia-simulee.json', encoding='utf-8'))  # positions identiques
         for d in ids:
             sel = None
             if d['ref'] is None and 'petite boîte' in d['label']: sel = 'L17'
@@ -219,7 +219,7 @@ async def main():
 
         log('Aucune erreur JavaScript', not errs, '; '.join(errs[:3]))
         print('TEMPS', {k: round(v, 2) for k, v in T.items()})
-        json.dump({'results': R, 'times': T, 'combos': res}, open(SD + 'e2e_results.json', 'w'), ensure_ascii=False, indent=1)
+        json.dump({'results': R, 'times': T, 'combos': res}, open(SD + 'e2e_results.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         await b.close()
 
 asyncio.run(main())
