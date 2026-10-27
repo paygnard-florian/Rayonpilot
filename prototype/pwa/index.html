@@ -989,6 +989,8 @@ async function runAI(){
     await cropFromPhoto();
     const secs=Math.round((Date.now()-t0)/1000);
     S.quota.used+=u;S.history.push({id:aid,date:new Date().toISOString(),units:u,status:'terminée',n:S.detections.length,secs,cost,via:aiState});
+    // Réponse brute conservée telle quelle (hors corrections) pour mesurer la détection.
+    S.aiRaw={analysis:aid,date:new Date().toISOString(),via:aiState,secs,cost,truncated,image:{w:im.W,h:im.H},response:res};
     S.example=false;aiMsg=truncated?'La réponse a été coupée : certains produits peuvent manquer. Vérifiez la liste.':'';markDirty();save();
     toast(`${S.detections.length} bloc(s) détecté(s) en ${secs} s${cost!=null?` · coût ${fmt(cost,3)} $`:''}. Vérifiez-les avant d’optimiser.`);
   }catch(e){
@@ -1056,7 +1058,7 @@ function renderPhoto(){
     <div id="aiZone" style="margin-top:12px">${aiZone()}</div>
   </div>
   <div class="card"><div class="head"><div><h3>${S.detections.length} détection(s)</h3>${toCheck.length?`<p>${toCheck.length} à vérifier. Les détections à confiance faible et les produits non associés bloquent l’optimisation.</p>`:''}</div>
-    <div class="row">${toCheck.some(d=>d.conf==='elevee'&&d.productId)?'<button id="valHigh">Valider les confiances élevées</button>':''}<button id="addDet">Ajouter une ligne</button></div></div>
+    <div class="row">${toCheck.some(d=>d.conf==='elevee'&&d.productId)?'<button id="valHigh">Valider les confiances élevées</button>':''}<button id="addDet">Ajouter une ligne</button>${S.aiRaw?'<button class="ghost" id="expAI">Exporter la réponse IA (JSON)</button>':''}</div></div>
     ${S.detections.length&&isMobile()?detCards():S.detections.length?`<div class="tbl-wrap" style="margin-top:10px"><table><thead><tr><th>#</th><th>Vu par l’IA</th><th>Référence</th><th class="num">Étagère</th><th class="num">Facings</th><th>Confiance</th><th>Statut</th><th></th></tr></thead><tbody>${detRows()}</tbody></table></div>`:'<p class="muted">Aucune détection. Lancez l’analyse de la photo ou ajoutez les produits à la main.</p>'}
   </div></section>`;
   ['#phFile','#phCam'].forEach(sel=>{const f=$(sel);if(f)f.onchange=e=>{const x=e.target.files[0];if(x)loadPhoto(x)}});
@@ -1078,6 +1080,7 @@ function renderPhoto(){
     const p={id:uid(),ref:'REF-'+String(S.catalog.length+1).padStart(3,'0'),ean:'',name:d.label||'Nouvelle référence',brand:(d.label||'—').split(' ')[0],cat:'Sans catégorie',w:d.estW,h:d.estH,d:null,dimSrc:(d.estW&&d.estH)?'estimee':'inconnue',dimOk:false,price:null,ca:null,qty:null,margin:null,mdd:false};
     S.catalog.push(p);d.productId=p.id;d.status='validee';markDirty();save();renderAll();cropFromPhoto();toast('Référence créée. Complétez ses dimensions dans l’étape Dimensions.')});
   const vh=$('#valHigh');if(vh)vh.onclick=()=>{S.detections.forEach(d=>{if(d.conf==='elevee'&&d.productId)d.status='validee'});markDirty();save();renderAll()};
+  const xa=$('#expAI');if(xa)xa.onclick=()=>offerFile(`reponse-ia-${slug(S.name)}-${S.aiRaw.date.slice(0,10)}.json`,JSON.stringify(S.aiRaw,null,2));
   $('#addDet').onclick=()=>{S.detections.push({id:uid(),productId:null,label:'',shelf:1,facings:1,box:null,conf:'manuelle',status:'a_verifier',src:'manuel'});save();renderAll()};
 }
 function bindDraw(){

@@ -11,7 +11,7 @@ Statut : **prototype démontrable** (phase E du PRD v2.0). Dépôt privé.
 | `prototype/rayonpilot.html` | Le prototype, en une seule page (source de vérité). |
 | `prototype/pwa/` | Version installable sur téléphone (application web), avec serveur relais IA optionnel. |
 | `data/test-lessive/` | Jeu de test : photo d'un rayon lessive, catalogue de 33 références (chiffres inventés), réponse IA simulée. |
-| `tests/e2e/` | Test de bout en bout rejouable (39 contrôles). |
+| `tests/e2e/` | Test de bout en bout rejouable (40 contrôles). |
 | `scripts/` | Reconstruction de la PWA. |
 | `docs/` | PRD condensé, règles de merchandising, décisions, rapport de test, feuille de route, backlog. |
 

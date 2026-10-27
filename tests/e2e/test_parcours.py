@@ -125,6 +125,14 @@ async def main():
         log('Corrections appliquées sans nouveau débit', k['unm'] == 0 and k['used'] == 3 and k['bad'] == 0, f"{corr} corrections sur 61 blocs ({round(corr/61*100)} %), {k['n']} blocs retenus")
         T['corrections'] = time.time() - t
 
+        # 7 bis. la réponse brute de l'IA reste exportable, intacte malgré les corrections
+        await ev("go('photo')"); await pg.wait_for_timeout(200)
+        await pg.click('#expAI'); await pg.wait_for_timeout(200)
+        sv = await ev("window.__saved"); raw = json.loads(sv[-1]['t']) if sv else {}
+        log('Réponse brute de l’IA exportée sans les corrections', len(sv) == 1 and sv[0]['filename'].startswith('reponse-ia-') and raw.get('response') == json.loads(AI) and raw.get('image', {}).get('w', 0) > 0,
+            f"{sv[0]['filename'] if sv else 'aucun fichier'}, {len(raw.get('response', {}).get('detections', []))} détections brutes")
+        await ev("window.__saved = []")
+
         # 8. dimensions : une estimée non confirmée bloque
         t = time.time()
         await ev("const p=S.catalog.find(p=>p.ref==='L29');p.dimSrc='estimee';p.dimOk=false;markDirty();save();go('dims')")
