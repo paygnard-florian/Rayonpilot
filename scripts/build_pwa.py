@@ -2,19 +2,19 @@
 import os, pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 D=str(ROOT/'prototype'/'pwa')
-html=open(D+'/index.html').read()
+html=open(D+'/index.html',encoding='utf-8').read()
 head=html[:html.index('<body>')+len('<body>\n')]
 tail=html[html.index("\n<script>if('serviceWorker'"):]
-body=open(ROOT/'prototype'/'rayonpilot.html').read()
-open(D+'/index.html','w').write(head+body+tail)
-sw=open(D+'/sw.js').read()
+body=open(ROOT/'prototype'/'rayonpilot.html',encoding='utf-8').read()
+open(D+'/index.html','w',encoding='utf-8').write(head+body+tail)
+sw=open(D+'/sw.js',encoding='utf-8').read()
 import re
 sw=re.sub(r"const CACHE='rayonpilot-v\d+'","const CACHE='rayonpilot-v2'",sw)
 # ne jamais mettre en cache les appels IA
 sw=sw.replace("self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;","self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET'||r.url.includes('/api/')||r.url.includes('anthropic.com'))return;")
-open(D+'/sw.js','w').write(sw)
+open(D+'/sw.js','w',encoding='utf-8').write(sw)
 os.makedirs(D+'/netlify/functions',exist_ok=True)
-open(D+'/netlify/functions/analyse.mjs','w').write("""// Serveur relais RayonPilot : garde la clé API côté serveur.
+open(D+'/netlify/functions/analyse.mjs','w',encoding='utf-8').write("""// Serveur relais RayonPilot : garde la clé API côté serveur.
 // Variables d'environnement Netlify : ANTHROPIC_API_KEY (obligatoire), RAYONPILOT_CODE (code d'accès, conseillé).
 const MODELES = ['claude-sonnet-5-5', 'claude-opus-5-5', 'claude-haiku-5-5'];
 
@@ -38,7 +38,7 @@ export default async (req) => {
 
 export const config = { path: '/api/analyse' };
 """)
-open(D+'/netlify.toml','w').write("""[build]
+open(D+'/netlify.toml','w',encoding='utf-8').write("""[build]
   publish = "."
 
 [functions]
